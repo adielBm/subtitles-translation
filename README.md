@@ -1,22 +1,23 @@
 # subtitles-translation
 
-### the problem
-i wanted to watch movies in english in order to improve my english, but sometime there are words that i don't know, so i needed to check them on google translate everytime I encounter them during the movive.
+## The Problem
+I wanted to watch movies in English to improve my language skills, but sometimes there are words I don't know. I had to check them on Google Translate every time I encountered them during the movie.
 
-### my solution
-it process a subtitle file (.srt), Whenever it encounters a word not on my list of known words (`fam.txt`), it automatically adds a short translation next to the original word.
+## My Solution
+This tool processes a subtitle file (.srt). Whenever it encounters a word not on my list of known words (`fam.txt`), it automatically adds a short translation next to the original word.
 
-### prerequisites
-- a file of list of known words (fam.txt)
-- implement the function `translate(word)` that will translate a word from english to language that you know
+## Prerequisites
+- A file with a list of known words (fam.txt). To start, you can check lists of common words such as the Oxford 5000.
+- Implement the function `translate(word)` to translate a word from English to your target language.
+- You need to insert new words into your list as you learn them. You can use the command `subtitles-translation insert "newWord1, newWord2, newWord3, ..."`.
+- You may need to make some changes to ensure it works properly.
 
+## Installation
 
-### install
+Inside this folder, run:
 
-inside this folder run
-
-```
-npm install 
+```shell
+npm install
 ```
 
 and then
@@ -25,7 +26,7 @@ and then
 npm install -g
 ```
 
-### usage
+#### Usage
 
 the input file `en-subtitle.srt`
 
@@ -38,7 +39,7 @@ going on some_unfamiliar_word now.
 
 ...
 ```
-
+and run 
 ```
 subtitles-translation add-translation en-subtitle.srt
 ```
