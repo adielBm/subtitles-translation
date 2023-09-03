@@ -5,7 +5,7 @@ I wanted to watch movies in English to improve my language skills, but sometimes
 
 ## My Solution
 
-This tool **add** translation to english subtitles, but only **to unknown words**.
+This tool **adds** translation to english subtitles, but only **to unknown words**.
 
 This tool processes a subtitle file (.srt). Whenever it encounters a word not on my list of known words (`fam.txt`), it automatically adds a short translation next to the original word.
 
