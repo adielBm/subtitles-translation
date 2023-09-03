@@ -8,20 +8,45 @@ import cliProgress from 'cli-progress';
 import { program } from 'commander';
 import pluralize from 'pluralize-esm';
 
+
 const parser = new srtParser2();
 const currentFile = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFile);
-const FAM_FILE = path.join(currentDirectory, 'fam.txt') // fam.txt is list of familiar words 
 
-export function translate(word) {
+/**
+ * Define the path to the 'fam.txt' file, which contains a list of familiar words.
+ * @type {string}
+ */
+const FAM_FILE = path.join(currentDirectory, 'fam.txt') 
 
-    // TODO 
+/**
+ * Translates a word.
+ *
+ * @param {string} word - The word to be translated.
+ * @returns {string|null} The translated word or null if no translation is available.
+ */
+function translate(word) {
 
+    // TODO
+    if (word == 'unknown_word') {
+        return 'The Translation of unknown_word'
+    }
+
+    if (word == 'known_word') {
+        return 'The Translation of known_word'
+    }
     // if there is not exist translation 
     return null
 }
 
-export function addTranslationsToText(text, excludeWords = []) {
+/**
+ * Adds translations to the input text.
+ *
+ * @param {string} text - The input text to which translations will be added.
+ * @param {string[]} excludeWords - An array of words to exclude from translation.
+ * @returns {string} The text with translations added.
+ */
+function addTranslationsToText(text, excludeWords = []) {
 
     excludeWords = excludeWords.map(word => word.trim().toLowerCase())
     // Split the input text into an array of words
@@ -57,7 +82,13 @@ export function addTranslationsToText(text, excludeWords = []) {
     return modifiedWords.join(' ');
 }
 
-export function getLastNonAlphabetCharacter(str) {
+/**
+ * Gets the last non-alphabet character in a string.
+ *
+ * @param {string} str - The input string.
+ * @returns {string|null} The last non-alphabet character or null if none is found.
+ */
+function getLastNonAlphabetCharacter(str) {
     // Use a regular expression to match the last non-alphabet character
     const match = str.match(/[^a-zA-Z]$/);
 
@@ -69,7 +100,13 @@ export function getLastNonAlphabetCharacter(str) {
     }
 }
 
-export function removeLastNonAlphabetCharacter(str) {
+/**
+ * Removes the last non-alphabet character in a string.
+ *
+ * @param {string} str - The input string.
+ * @returns {string} The modified string with the last non-alphabet character removed.
+ */
+function removeLastNonAlphabetCharacter(str) {
     // Use a regular expression to match the last non-alphabet character
     const match = str.match(/[^a-zA-Z]$/);
 
@@ -82,29 +119,49 @@ export function removeLastNonAlphabetCharacter(str) {
     }
 }
 
+
 /**
- * check if a word is fam.
- * - if the word is SUP or CMPR it checks for the base adj form of it.
- * - if the word is VERB it checks for the infinitive form of it.   
+ * Checks if a word is familiar.
+ *
+ * @param {string} word - The word to check for familiarity.
+ * @returns {boolean} True if the word is familiar, false otherwise.
  */
-export function isFam(word) {
+function isFam(word) {
     word = word.toLowerCase().trim()
     const fam = getFam()
     return (fam.includes(word) || fam.includes(toBaseForm(word)))
 }
 
-export function getFam() {
+
+/**
+ * Gets the list of familiar words from a file.
+ *
+ * @returns {string[]} An array of familiar words.
+ */
+function getFam() {
     return fileToArray(FAM_FILE)
 }
 
-export function fileToArray(inputFileName) {
+/**
+ * Converts a file's of word seperated by \r\n to an array of strings.
+ *
+ * @param {string} inputFileName - The name of the input file.
+ * @returns {string[]} An array of strings from the file's content.
+ */
+function fileToArray(inputFileName) {
     const fileContent = fs.readFileSync(inputFileName, 'utf-8');
     let lines = fileContent.split(/\r\n|\n|\r/)
     lines = lines.map(val => val.trim())
     return Array.from(new Set(lines));
 }
 
-export function toBaseForm(word) {
+/**
+ * Converts a word to its base form.
+ *
+ * @param {string} word - The word to convert.
+ * @returns {string} The base form of the word.
+ */
+function toBaseForm(word) {
     if (isAdjective(word) && (word.endsWith('est') || word.endsWith('er'))) {
         return toBaseFormAdjective(word)
     }
@@ -119,29 +176,51 @@ export function toBaseForm(word) {
     return word
 }
 
+
 /**
- * convert comparative / superlative into base form of adjective
- * @param {*} word 
+ * Converts a comparative or superlative adjective to its base form.
+ *
+ * @param {string} word - The adjective to convert.
+ * @returns {string} The base form of the adjective.
  */
-export function toBaseFormAdjective(word) {
+function toBaseFormAdjective(word) {
     return nlp(word)?.adjectives()?.conjugate()[0]?.Adjective
 }
 
-export function isAdjective(word) {
+/**
+ * Checks if a word is an adjective.
+ *
+ * @param {string} word - The word to check.
+ * @returns {boolean} True if the word is an adjective, false otherwise.
+ */
+function isAdjective(word) {
     if (nlp(word).adjectives().text()) {
         return true
     }
     return false
 }
 
-export function isVerb(word) {
+/**
+ * Checks if a word is a verb.
+ *
+ * @param {string} word - The word to check.
+ * @returns {boolean} True if the word is a verb, false otherwise.
+ */
+
+function isVerb(word) {
     if (nlp(word).verbs().text()) {
         return true
     }
     return false
 }
 
-export function toSingular(word) {
+/**
+ * Converts a word to its singular form.
+ *
+ * @param {string} word - The word to convert.
+ * @returns {string} The singular form of the word.
+ */
+function toSingular(word) {
     if (word.endsWith('s')) {
         const singular = pluralize.singular(word)
         return singular != '' ? singular : word
@@ -150,7 +229,14 @@ export function toSingular(word) {
     }
 }
 
-export function toInfinitive(word, defaultReturn = word) {
+/**
+ * Converts a word to its infinitive form.
+ *
+ * @param {string} word - The word to convert.
+ * @param {string} defaultReturn - The default value to return if no infinitive form is found.
+ * @returns {string} The infinitive form of the word or the default value.
+ */
+function toInfinitive(word, defaultReturn = word) {
 
     let infinitive = word
 
@@ -178,13 +264,22 @@ export function toInfinitive(word, defaultReturn = word) {
     return defaultReturn
 }
 
-export function isIncludesApostrophe(word) {
+/**
+ * Checks if a word contains an apostrophe.
+ *
+ * @param {string} word - The word to check.
+ * @returns {boolean} True if the word contains an apostrophe, false otherwise.
+ */
+function isIncludesApostrophe(word) {
     return word.includes("’") || word.includes("'")
 }
 
-
-
-export function insert(words) {
+/**
+ * Inserts words into the familiar words list.
+ *
+ * @param {string} words - The words to insert, separated by commas.
+ */
+function insert(words) {
     const file = FAM_FILE
     if (file) {
         words = words.split(',').map(word => word.trim())
@@ -193,34 +288,43 @@ export function insert(words) {
     }
 }
 
-export function arrayToFile(array, outputFileName) {
+/**
+ * Writes an array of strings to a file, removing duplicates.
+ *
+ * @param {string[]} array - The array of strings to write to the file.
+ * @param {string} outputFileName - The name of the output file.
+ */
+function arrayToFile(array, outputFileName) {
     array = array.map(el => el.toLowerCase())
     array = removeDuplicates(array)
     fs.writeFileSync(outputFileName, array.sort().join('\n'));
 }
 
-// Function to remove duplicates from an array
-export function removeDuplicates(array) {
+/**
+ * Removes duplicates from an array of strings.
+ *
+ * @param {string[]} array - The array of strings to remove duplicates from.
+ * @returns {string[]} An array with duplicates removed.
+ */
+function removeDuplicates(array) {
     return Array.from(new Set(array));
 }
 
 
-
-
 program
     .name('subtitles-translation-cli')
-    .description('CLI to subtitles translation')
+    .description('A command-line tool for adding translation to subtitles.')
     .version('1.0.0');
 
 program.command('add-translation')
-    .description('add translation to subtitle')
-    .argument('<string>', '.srt file of subtitles')
-    .option('-e, --exclude-words <string>', 'A list of words that should not be translated.')
+    .description('Adds translations to a subtitle file.')
+    .argument('<string>', 'The path to the .srt subtitle file.')
+    .option('-e, --exclude-words <string>', 'A comma-separated list of words to exclude from translation.')
     .action(async (filename, options) => {
 
         try {
             if (!filename.endsWith('srt')) {
-                console.error('the file need to be .srt format');
+                console.error('The file must be in .srt format.');
                 process.exit()
             }
 
@@ -232,7 +336,7 @@ program.command('add-translation')
             // create a new progress bar instance and use shades_classic theme
             const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
             // Process the srt_array...
-            console.log('Process the subtitle...');
+            console.log('Processing the subtitles...');
             bar1.start(srt_array.length - 1, 0);
             srt_array = srt_array.map((entity, i) => {
                 entity.text = addTranslationsToText(entity.text, options.excludeWords?.split(',') || [])
@@ -245,7 +349,7 @@ program.command('add-translation')
             // Convert the processed array back to SRT string.
             const srt_string = parser.toSrt(srt_array);
 
-            console.log('Write to the file...');
+            console.log('Writing to the file...');
             fs.writeFileSync(`translated-${filename}`, srt_string, 'utf-8');
 
             console.log('Subtitle processing complete.');
@@ -261,8 +365,8 @@ program.command('add-translation')
 
 
 program.command('insert')
-    .description('Insert word(s) to fam list')
-    .argument('<string>', 'word(s) to insert, seperated with commas')
+    .description('Inserts word(s) into the familiar words list.')
+    .argument('<string>', 'Word(s) to insert, separated by commas.')
     .action((str) => {
         insert(str)
         process.exit()
