@@ -6,6 +6,8 @@ import nlp from 'compromise';
 import srtParser2 from "srt-parser-2";
 import cliProgress from 'cli-progress';
 import { program } from 'commander';
+import pluralize from 'pluralize-esm';
+
 
 const parser = new srtParser2();
 const currentFile = fileURLToPath(import.meta.url);
@@ -144,6 +146,15 @@ export function isVerb(word) {
     return false
 }
 
+export function toSingular(word) {
+    if (word.endsWith('s')) {
+        const singular = pluralize.singular(word)
+        return singular != '' ? singular : word
+    } else {
+        return word
+    }
+}
+
 export function toInfinitive(word, defaultReturn = word) {
 
     let infinitive = word
@@ -176,6 +187,31 @@ export function isIncludesApostrophe(word) {
     return word.includes("’") || word.includes("'")
 }
 
+
+
+export function insert(words) {
+    const file = FAM_FILE
+    if (file) {
+        words = words.split(',').map(word => word.trim())
+        arrayToFile(fileToArray(file).concat(words), file)
+        console.log('Inserted: ' + words)
+    }
+}
+
+export function arrayToFile(array, outputFileName) {
+    array = array.map(el => el.toLowerCase())
+    array = removeDuplicates(array)
+    fs.writeFileSync(outputFileName, array.sort().join('\n'));
+}
+
+// Function to remove duplicates from an array
+export function removeDuplicates(array) {
+    return Array.from(new Set(array));
+}
+
+
+
+
 program
     .name('subtitles-translation-cli')
     .description('CLI to subtitles translation')
@@ -193,8 +229,7 @@ program.command('add-translation')
                 process.exit()
             }
 
-            // Read the subtitle content from the file indicated by mkvextractOutput
-            const srt = await fs.readFile(`${filename}`, 'utf-8');
+            const srt = fs.readFileSync(`${filename}`, 'utf-8');
 
             // Parse the SRT content
             let srt_array = parser.fromSrt(srt);
@@ -205,7 +240,7 @@ program.command('add-translation')
             console.log('Process the subtitle...');
             bar1.start(srt_array.length - 1, 0);
             srt_array = srt_array.map((entity, i) => {
-                entity.text = addTranslationsToText(entity.text, 2, options.excludeWords?.split(',') || [])
+                entity.text = addTranslationsToText(entity.text, options.excludeWords?.split(',') || [])
                 bar1.update(i);
                 return entity
             })
@@ -216,7 +251,7 @@ program.command('add-translation')
             const srt_string = parser.toSrt(srt_array);
 
             console.log('Write to the file...');
-            await fs.writeFile(`translated-${filename}`, srt_string, 'utf-8');
+            fs.writeFileSync(`translated-${filename}`, srt_string, 'utf-8');
 
             console.log('Subtitle processing complete.');
 
@@ -239,22 +274,4 @@ program.command('insert')
     });
 
 
-export function insert(words) {
-    const file = FAM_FILE
-    if (file) {
-        words = words.split(',').map(word => word.trim())
-        arrayToFile(fileToArray(file).concat(words), file)
-        console.log('Inserted: ' + words)
-    }
-}
-
-export function arrayToFile(array, outputFileName) {
-    array = array.map(el => el.toLowerCase())
-    array = removeDuplicates(array)
-    fs.writeFileSync(outputFileName, array.sort().join('\n'));
-}
-
-// Function to remove duplicates from an array
-export function removeDuplicates(array) {
-    return Array.from(new Set(array));
-}
+program.parse();
