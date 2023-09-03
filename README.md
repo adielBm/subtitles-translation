@@ -7,9 +7,9 @@ I wanted to watch movies in English to improve my language skills, but sometimes
 This tool processes a subtitle file (.srt). Whenever it encounters a word not on my list of known words (`fam.txt`), it automatically adds a short translation next to the original word.
 
 ## Prerequisites
-- A file with a list of known words (fam.txt). To start, you can check lists of common words such as the Oxford 5000.
+- Create a file with a list of known words (`fam.txt`). To start, you can check lists of common words such as the Oxford 5000.
 - Implement the function `translate(word)` to translate a word from English to your target language.
-  - https://github.com/adielBm/subtitles-translation/blob/ce44ba692c0dc0fd513dd0f7a82d68915be2c831/subtitles-translation.js#L16  
+  - https://github.com/adielBm/subtitles-translation/blob/8bf723ceed38ae48814749373c7cc2bc0a680a83/subtitles-translation.js#L16
 - You need to insert new words into your list as you learn them. You can use the command `subtitles-translation insert "newWord1, newWord2, newWord3, ..."`.
 - You may need to make some changes to ensure it works properly.
 
