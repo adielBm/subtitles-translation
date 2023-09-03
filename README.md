@@ -1,20 +1,20 @@
 # subtitles-translation
 
-## The Problem
+## Problem
 I wanted to watch movies in English to improve my language skills, but sometimes there are words I don't know. I had to check them on Google Translate every time I encountered them during the movie.
 
 ## My Solution
-
-This tool **adds** translation to english subtitles, but only **to unknown words**.
-
-This tool processes a subtitle file (.srt). Whenever it encounters a word not on my list of known words (`fam.txt`), it automatically adds a short translation next to the original word.
+This tool processes subtitle files in the .srt format and adds translations next to unknown words. It relies on a list of known words (`fam.txt`) and a translation function (`translate(word)`) that you need implement to translate English words into your native language.
 
 ## Prerequisites
-- Create a file with a list of known words (`fam.txt`). To start, you can check lists of common words such as the Oxford 5000.
-- Implement the function `translate(word)` to translate a word from English to your target language.
+
+- Create a file with a list of known words (`fam.txt`).
+- Implement the `translate(word)` function to provide translations from English to your native language.
   - https://github.com/adielBm/subtitles-translation/blob/8bf723ceed38ae48814749373c7cc2bc0a680a83/subtitles-translation.js#L16
-- You need to insert new words into your list as you learn them. You can use the command `subtitles-translation insert "newWord1, newWord2, newWord3, ..."`.
-- You may need to make some changes to ensure it works properly.
+- Make any necessary adjustments to ensure the tool works correctly for your specific use case.
+
+In the future, when your vocabulary get enlarged, you'll need Insert new words into your list as you learn them. Use the command `subtitles-translation insert "newWord1, newWord2, newWord3, ..."` to update your known words list.
+
 
 ## Installation
 
