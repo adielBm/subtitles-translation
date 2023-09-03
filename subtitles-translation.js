@@ -39,7 +39,7 @@ export function addTranslationsToText(text, excludeWords = []) {
             lowerWord = removeLastNonAlphabetCharacter(lowerWord)
         }
 
-        if (lowerWord.length <= 2 || isIncludesApostrophe(lowerWord) || excludeWords.includes(lowerWord) || isFam(word)) {
+        if (lowerWord.length <= 2 || isIncludesApostrophe(lowerWord) || excludeWords.includes(lowerWord) || isFam(lowerWord)) {
             modifiedWords.push(word);
             continue;
         }
