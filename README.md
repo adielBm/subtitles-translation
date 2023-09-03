@@ -1,6 +1,6 @@
 # subtitles-translation
 
-### my problem
+### the problem
 i wanted to watch movies in english in order to improve my english, but sometime there are words that i don't know, so i needed to check them on google translate everytime I encounter them during the movive.
 
 ### my solution
