@@ -8,7 +8,6 @@ import cliProgress from 'cli-progress';
 import { program } from 'commander';
 import pluralize from 'pluralize-esm';
 
-
 const parser = new srtParser2();
 const currentFile = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFile);
@@ -17,10 +16,6 @@ const FAM_FILE = path.join(currentDirectory, 'fam.txt') // fam.txt is list of fa
 export function translate(word) {
 
     // TODO 
-    // ... 
-    if (word == 'zest') {
-        return 'zest_translation'
-    }
 
     // if there is not exist translation 
     return null
