@@ -27,7 +27,9 @@ and then
 npm install -g
 ```
 
-#### Usage
+## Usage
+
+### add-translation [file.srt]
 
 the input file `en-subtitle.srt`
 
@@ -55,4 +57,12 @@ then it outputs a file `translated-en-subtitle.srt`:
 going on some_unfamiliar_word <font size="10px" color="#d4d2d2"> (translation of some_unfamiliar_word)</font> now.
 
 ...
+```
+
+### insert [list of words]
+
+for insert new words to `fam.txt`
+
+```
+subtitles-translation insert "newWord1, newWord2, newWord3, ..."`.
 ```
