@@ -1,5 +1,8 @@
 # subtitles-translation
 
+> Important: ⚠️ this little program was originally only for my needs, I made it public just because some people wanted. You probably may need to make any necessary adjustments to ensure the tool works properly for your specific use case.
+
+
 ## Problem
 I wanted to watch movies in English to improve my language skills, but sometimes there are words I don't know. I had to check them on Google Translate every time I encountered them during the movie.
 
