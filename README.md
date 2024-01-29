@@ -1,6 +1,7 @@
 # subtitles-translation
 
-> Important: ⚠️ this little program was originally only for my needs, I made it public just because some people wanted. You probably may need to make some necessary adjustments to ensure the tool works properly for your specific use case.
+> [!WARNING]  
+> this little program was originally only for my needs, I made it public just because some people wanted. You probably may need to make some necessary adjustments to ensure the tool works properly for your specific use case.
 
 
 ## Problem
